@@ -1,15 +1,19 @@
-# Flask & Python
+
 instance/
 !instance/.gitignore
-.webassets-cache
 .env
-.flaskenv
+.webassets-cache
+
+Python-cache
+pycache/
 *.py[cod]
 *$py.class
-__pycache__/
+
+C extensions
 *.so
+
+Distribution / Packaging
 .Python
-env/
 build/
 develop-eggs/
 dist/
@@ -21,58 +25,131 @@ lib64/
 parts/
 sdist/
 var/
+wheels/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-.pytest_cache/
-.coverage
+MANIFEST
+
+PyInstaller
+*.manifest
+.spec
+
+Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+Unit test / Coverage reports
 htmlcov/
 .tox/
 .nox/
+.coverage
+.coverage.
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
 
-# Databaser
-*.db
-*.sqlite
-*.sqlite3
+Database files
+db.sqlite3
+db.sqlite3-journal
 
-# Flask-specifikt
-flask_session/
+Django
+.log
+local_settings.py
 
-# Användaruppladdade filer
-static/profile_pics/*
-!static/profile_pics/default.jpg
-static/song_pics/*
-!static/song_pics/default.jpg
-static/post_pics/*
-!static/post_pics/default.jpg
+Scrapy
+.scrapy
 
-# React / JavaScript
-React-Frontend/node_modules/
-React-Frontend/.pnp
-React-Frontend/.pnp.js
-React-Frontend/coverage
-React-Frontend/build
-React-Frontend/.DS_Store
-React-Frontend/.env.local
-React-Frontend/.env.development.local
-React-Frontend/.env.test.local
-React-Frontend/.env.production.local
-React-Frontend/npm-debug.log*
-React-Frontend/yarn-debug.log*
-React-Frontend/yarn-error.log*
+Sphinx documentation
+docs/_build/
 
-# VS Code-specifikt
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+PyBuilder
+.pybuilder/
+target/
 
-# OS-specifika filer
+Jupyter Notebook
+.ipynb_checkpoints
+
+IPython
+profile_default/
+ipython_config.py
+
+Environments (virtuella Python-miljöer)
+**/venv/
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+Cython debug symbols
+cython_debug/
+
+.DSStore
+.DS
+/node_modules/
+bower_components/
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+Build-output
+/build
+/dist
+
+Editor-specifika filer
+.vscode/
+.idea/
+*.swp
+*.swo
+
+Tempfiler & cache
+.cache/
+.stylelintcache
+.eslintcache
+*.log
+
+Miljöfiler (kan innehålla API-nycklar och känslig info)
+/env/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+Dependency-hantering
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+TypeScript-kompileringsfiler
+*.tsbuildinfo
+
+GitHub & CI/CD
+.github/
+.vercel/
+.netlify/
+firebase.json
+.firebaserc
+
+MacOS-specifika filer
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
+
+flask_session/
