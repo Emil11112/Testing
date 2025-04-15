@@ -2,7 +2,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask_cors import CORS  # Add this import
 import os
 
 # Initiera delade extensions
@@ -11,17 +10,6 @@ login_manager = LoginManager()
 
 def create_app():
     app = Flask(__name__)
-    
-    # Konfigurera CORS
-    CORS(app, resources={
-        r"/*": {
-            "origins": [
-                "http://localhost:3000",  # React development server
-                "http://127.0.0.1:3000"
-            ],
-            "supports_credentials": True
-        }
-    })
     
     # Konfiguration
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', os.urandom(24))
