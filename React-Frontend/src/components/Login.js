@@ -13,6 +13,7 @@ const Login = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Validate input
     if (!username.trim() || !password.trim()) {
       setError('Please enter both username and password');
       return;
@@ -22,23 +23,53 @@ const Login = ({ setUser }) => {
       setLoading(true);
       setError('');
       
-      const response = await axios.post('/login', {
-        username,
-        password
-      });
+      // Make login request with explicit content type
+      const response = await axios.post('/login', 
+        {
+          username,
+          password
+        }, 
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
       
+      // Check for successful login
       if (response.data.success) {
-        // Uppdatera användarinformation i förälder-komponenten
+        // Fetch user authentication status
         const userResponse = await axios.get('/auth-status');
+        
         if (userResponse.data.logged_in) {
+          // Update user state and navigate to home
           setUser(userResponse.data.user);
           navigate('/');
+        } else {
+          // Fallback error if login seems successful but no user data
+          setError('Authentication failed. Please try again.');
         }
+      } else {
+        // Handle server-side login failure
+        setError(response.data.error || 'Login failed');
       }
     } catch (error) {
-      console.error('Login error:', error);
-      setError(error.response?.data?.error || 'Invalid username or password');
+      // Handle network or unexpected errors
+      console.error('Login error:', error.response?.data || error.message);
+      
+      // Set user-friendly error message
+      if (error.response) {
+        // Server responded with an error
+        setError(error.response.data.error || 'Login failed. Please try again.');
+      } else if (error.request) {
+        // Request made but no response received
+        setError('No response from server. Please check your connection.');
+      } else {
+        // Something happened in setting up the request
+        setError('An unexpected error occurred. Please try again.');
+      }
     } finally {
+      // Always set loading to false
       setLoading(false);
     }
   };

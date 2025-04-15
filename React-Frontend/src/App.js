@@ -1,20 +1,22 @@
+// App.js
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 
-// Komponenter
-import Navbar from './components/Navbar';
-import Home from './components/Home';
-import Profile from './components/Profile';
-import Login from './components/Login';
-import Register from './components/Register';
-import Discovery from './components/Discovery';
-import EditProfile from './components/EditProfile';
-import NotFound from './components/NotFound';
+// Use explicit imports for components
+import Navbar from './components/Navbar.js';
+import Home from './components/Home.js';
+import Profile from './components/Profile.js';
+import Login from './components/Login.js';
+import Register from './components/Register.js';
+import Discovery from './components/Discovery.js';
+import EditProfile from './components/EditProfile.js';
+import NotFound from './components/NotFound.js';
 
 // Konfiguration för API-anrop
 axios.defaults.baseURL = 'http://localhost:5000';
 axios.defaults.withCredentials = true;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 function App() {
   const [user, setUser] = useState(null);
