@@ -38,57 +38,6 @@ const Register = ({ setUser }) => {
     return true;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) return;
-    
-    try {
-      setLoading(true);
-      setError('');
-      
-      // Skapa en FormData-instans för att skicka både filuppladdning och textdata
-      const formData = new FormData();
-      formData.append('username', username);
-      formData.append('email', email);
-      formData.append('password', password);
-      formData.append('confirm_password', confirmPassword);
-      
-      if (favoriteGenre) {
-        formData.append('favorite_genre', favoriteGenre);
-      }
-      
-      if (profilePicture) {
-        formData.append('profile_picture', profilePicture);
-      }
-      
-      // Gör API-anrop till backend
-      const response = await axios.post('/register', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      
-      if (response.data.success) {
-        // Uppdatera användarinformation i förälder-komponenten
-        const userResponse = await axios.get('/auth-status');
-        if (userResponse.data.logged_in) {
-          setUser(userResponse.data.user);
-          navigate('/');
-        } else {
-          // Om användaren inte automatiskt loggas in efter registrering
-          // skicka till login-sidan
-          navigate('/login');
-        }
-      }
-    } catch (error) {
-      console.error('Registration error:', error);
-      setError(error.response?.data?.error || 'Registration failed. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -104,6 +53,76 @@ const Register = ({ setUser }) => {
       }
       
       setProfilePicture(file);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Validate form
+    if (!validateForm()) return;
+    
+    try {
+      setLoading(true);
+      setError('');
+      
+      // Create FormData for file upload
+      const formData = new FormData();
+      formData.append('username', username);
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('confirm_password', confirmPassword);
+      
+      // Add optional fields
+      if (favoriteGenre) {
+        formData.append('favorite_genre', favoriteGenre);
+      }
+      
+      if (profilePicture) {
+        formData.append('profile_picture', profilePicture);
+      }
+      
+      // Send registration request
+      const response = await axios.post('/register', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      
+      // Check for successful registration
+      if (response.data.success) {
+        // Fetch user authentication status
+        const userResponse = await axios.get('/auth-status');
+        
+        if (userResponse.data.logged_in) {
+          // Update user state and navigate to home
+          setUser(userResponse.data.user);
+          navigate('/');
+        } else {
+          // Fallback to login page if auto-login fails
+          navigate('/login');
+        }
+      } else {
+        // Handle server-side registration failure
+        setError(response.data.error || 'Registration failed');
+      }
+    } catch (error) {
+      // Handle network or unexpected errors
+      console.error('Registration error:', error.response?.data || error.message);
+      
+      if (error.response) {
+        // Server responded with an error
+        setError(error.response.data.error || 'Registration failed. Please try again.');
+      } else if (error.request) {
+        // Request made but no response received
+        setError('No response from server. Please check your connection.');
+      } else {
+        // Something happened in setting up the request
+        setError('An unexpected error occurred. Please try again.');
+      }
+    } finally {
+      // Always set loading to false
+      setLoading(false);
     }
   };
 
